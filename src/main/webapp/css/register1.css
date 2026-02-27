@@ -1,0 +1,131 @@
+/* ================= GLOBAL ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: linear-gradient(135deg, #2874f0, #1c5ed6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* ================= CONTAINER ================= */
+.container {
+    background: #ffffff;
+    padding: 40px 35px;
+    width: 400px;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.container h2 {
+    margin-bottom: 25px;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1px;
+    font-size: 28px;
+    color: #2874f0;
+}
+
+/* ================= FORM ================= */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 3px;
+}
+
+input {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    transition: 0.3s ease;
+}
+
+input:focus {
+    border-color: #2874f0;
+    box-shadow: 0 0 0 2px rgba(40, 116, 240, 0.2);
+    outline: none;
+}
+
+/* ================= BUTTON ================= */
+button {
+    margin-top: 10px;
+    padding: 10px;
+    background: #ff9f00;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    background: #e68900;
+    transform: translateY(-2px);
+}
+
+/* ================= FOOTER LINK ================= */
+.footer-link {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.footer-link a {
+    color: #2874f0;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.footer-link a:hover {
+    text-decoration: underline;
+}
+
+/* ================= HOME BUTTON ================= */
+.container > a {
+    margin-top: 15px;
+    display: inline-block;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: #2874f0 !important;
+    background: rgba(40, 116, 240, 0.1);
+    border: 1px solid rgba(40, 116, 240, 0.3);
+    padding: 6px 14px;
+    border-radius: 6px;
+    text-decoration: none !important;
+    transition: 0.3s ease;
+}
+
+.container > a:hover {
+    background: #2874f0;
+    color: white !important;
+}
+
+/* ================= ERROR MESSAGE ================= */
+p {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #e53935;
+    font-weight: 500;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 480px) {
+    .container {
+        width: 90%;
+        padding: 30px 20px;
+    }
+}
