@@ -1,13 +1,20 @@
 package com.techouts.controller;
 
 import com.techouts.model.User;
+import com.techouts.service.CartService;
+import com.techouts.service.OrdersService;
 import com.techouts.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
+import java.io.IOException;
+import java.security.Principal;
 import java.util.Optional;
 
 @Controller
@@ -62,7 +69,7 @@ public class HomeController {
         session.invalidate();
         redirectAttributes.addFlashAttribute("message",
                 "You have been logged out successfully.");
-        return "redirect:/login";
+        return "redirect:/products";
     }
     @GetMapping("/register")
     public String register() {
@@ -92,6 +99,85 @@ public class HomeController {
 
         // Redirect to products page
         return "redirect:/products";
+    }
+
+    @Autowired
+    CartService cartService;
+    @Autowired
+    OrdersService ordersService;
+    @GetMapping("/profile")
+    public String profile(Model model, HttpSession session) {
+
+        User user = (User) session.getAttribute("user");
+
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        int cartCount = cartService.getCartProductCount(user);
+        int orderCount = ordersService.getOrderCount(user);
+
+        model.addAttribute("user", user);
+        model.addAttribute("cartCount", cartCount);
+        model.addAttribute("orderCount", orderCount);
+
+        return "profile";
+    }
+
+    @PostMapping("/updateProfile")
+    public String updateProfile(@RequestParam("name") String name,
+                                @RequestParam("email") String email,
+                                @RequestParam("phone") String phone,
+                                @RequestParam("address") String address,
+                                @RequestParam("imageFile") MultipartFile file,
+                                HttpSession session,
+                                RedirectAttributes redirectAttributes) throws IOException {
+
+        User user = (User) session.getAttribute("user");
+
+
+        if (!user.getEmail().equals(email)) {
+            Optional<User> existingEmailUser = userService.findByEmail(email);
+            if (existingEmailUser.isPresent()) {
+                redirectAttributes.addFlashAttribute("error", "Email already exists!");
+                return "redirect:/profile";
+            }
+        }
+
+
+        if (!user.getPhone().equals(phone)) {
+            Optional<User> existingPhoneUser = userService.findByPhone(phone);
+            if (existingPhoneUser.isPresent()) {
+                redirectAttributes.addFlashAttribute("error", "Phone number already exists!");
+                return "redirect:/profile";
+            }
+        }
+
+        // Update values
+        user.setName(name);
+        user.setEmail(email);
+        user.setPhone(phone);
+        user.setAddress(address);
+
+        // Image upload
+        if (!file.isEmpty()) {
+            String uploadDir = "C:/uploads/";
+            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+
+            File uploadPath = new File(uploadDir);
+            if (!uploadPath.exists()) {
+                uploadPath.mkdirs();
+            }
+
+            file.transferTo(new File(uploadDir + fileName));
+            user.setProfileImage(fileName);
+        }
+
+        userService.update(user);
+        session.setAttribute("user", user);
+
+        redirectAttributes.addFlashAttribute("success", "Profile updated successfully!");
+        return "redirect:/profile";
     }
 
 }

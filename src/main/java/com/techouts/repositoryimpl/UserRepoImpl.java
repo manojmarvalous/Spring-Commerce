@@ -51,7 +51,7 @@ public class UserRepoImpl implements UserRepo {
     @Override
     public boolean existsByUsername(String username) {
         Long count = sessionFactory.getCurrentSession()
-                .createQuery("SELECT COUNT(u) FROM User u WHERE u.username = :username", Long.class)
+                .createQuery("SELECT COUNT(u) FROM User u WHERE u.name = :username", Long.class)
                 .setParameter("username", username)
                 .uniqueResult();
         return count != null && count > 0;
@@ -64,5 +64,19 @@ public class UserRepoImpl implements UserRepo {
                 .setParameter("email", email)
                 .uniqueResult();
         return count != null && count > 0;
+    }
+
+    @Override
+    public Optional<User> findUserWithDetails(String email) {
+        return sessionFactory.getCurrentSession()
+                .createQuery(
+                        "SELECT u FROM User u " +
+                                "LEFT JOIN FETCH u.userOrders " +
+                                "LEFT JOIN FETCH u.cart c " +
+                                "LEFT JOIN FETCH c.cartItems " +
+                                "WHERE u.email = :email",
+                        User.class)
+                .setParameter("email", email)
+                .uniqueResultOptional();
     }
 }

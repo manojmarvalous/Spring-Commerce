@@ -35,4 +35,20 @@ public class UserService {
     public Optional<User> findByPhone(String phone) {
         return userRepo.findByPhone(phone);
     }
+
+    public User getProfileDetails(String email) {
+        return userRepo.findUserWithDetails(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public void updateBasicDetails(String currentEmail, String newName, String newEmail) {
+
+        User user = userRepo.findByEmail(currentEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setName(newName);
+        user.setEmail(newEmail);
+
+        userRepo.update(user);
+    }
 }

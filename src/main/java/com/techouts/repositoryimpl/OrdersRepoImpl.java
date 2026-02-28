@@ -3,6 +3,7 @@ package com.techouts.repositoryimpl;
 
 
 import com.techouts.model.Orders;
+import com.techouts.model.User;
 import com.techouts.repository.OrdersRepo;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -45,5 +46,18 @@ public class OrdersRepoImpl implements OrdersRepo {
     public List<Orders> findAllOrders() {
         Query<Orders> query = getSession().createQuery("FROM Orders", Orders.class);
         return query.list();
+    }
+
+    @Override
+    public int getOrderCount(User user) {
+
+        Long count = getSession().createQuery(
+                        "SELECT COUNT(o) FROM Orders o WHERE o.user = :user",
+                        Long.class
+                )
+                .setParameter("user", user)
+                .uniqueResult();
+
+        return count != null ? count.intValue() : 0;
     }
 }

@@ -21,9 +21,24 @@ public class WebConfig implements WebMvcConfigurer {
         return resolver;
     }
 
+    // Multipart resolver for file upload
+    @Bean
+    public org.springframework.web.multipart.support.StandardServletMultipartResolver multipartResolver() {
+        return new org.springframework.web.multipart.support.StandardServletMultipartResolver();
+    }
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
         registry.addResourceHandler("/css/**")
                 .addResourceLocations("/css/");
+
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:/C:/uploads/");
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("/images/");
+
+        registry.addResourceHandler("/uploads/products/**")
+                .addResourceLocations("file:/C:/uploads/products/");
     }
 }

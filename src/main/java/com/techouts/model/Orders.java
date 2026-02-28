@@ -117,7 +117,7 @@ public class Orders {
 
     private String address;
     private String paymentMethod;
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<ProductDetails> productDetailsList;
 
     private BigDecimal totalAmount;

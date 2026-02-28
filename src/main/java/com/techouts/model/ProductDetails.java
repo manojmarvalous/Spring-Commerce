@@ -5,6 +5,9 @@ import java.math.BigDecimal;
 
 @Entity
 public class ProductDetails {
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

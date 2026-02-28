@@ -53,10 +53,15 @@ public class CartRepoImpl implements CartRepo {
 
     @Override
     public Cart getCartByUser(User user) {
+
         Query<Cart> query = getSession().createQuery(
-                "SELECT c FROM Cart c LEFT JOIN FETCH c.cartProducts WHERE c.user = :user",
+                "SELECT DISTINCT c FROM Cart c " +
+                        "LEFT JOIN FETCH c.cartProducts cp " +
+                        "LEFT JOIN FETCH cp.product " +
+                        "WHERE c.user = :user",
                 Cart.class
         );
+
         query.setParameter("user", user);
 
         return query.uniqueResult();
@@ -68,6 +73,19 @@ public class CartRepoImpl implements CartRepo {
         if (cp != null) {
             getSession().remove(cp);
         }
+    }
+
+    @Override
+    public int getCartProductCount(User user) {
+
+        Long count = getSession().createQuery(
+                        "SELECT COUNT(cp) FROM CartProducts cp WHERE cp.cart.user = :user",
+                        Long.class
+                )
+                .setParameter("user", user)
+                .uniqueResult();
+
+        return count != null ? count.intValue() : 0;
     }
 
     @Override

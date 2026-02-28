@@ -29,6 +29,9 @@
                 <a href="products?category=Accessory">&#127914; Accessories</a>
             </div>
         </div>
+        <c:if test="${user.role == 'ADMIN'}">
+            <a href="${pageContext.request.contextPath}/admin/products">Admin Panel</a>
+        </c:if>
     </nav>
 
       <!-- ===== SEARCH BAR ===== -->

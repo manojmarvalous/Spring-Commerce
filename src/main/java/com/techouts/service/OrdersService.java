@@ -72,6 +72,12 @@ public class OrdersService {
         }
     }
 
+
+
+    public int getOrderCount(User user) {
+        return ordersRepo.getOrderCount(user);
+    }
+
     public List<Orders> getOrdersByUser(User user) {
         return ordersRepo.findByUserId(user.getId());
     }

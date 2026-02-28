@@ -71,6 +71,11 @@ public class CartService {
         });
     }
 
+
+    public int getCartProductCount(User user) {
+        return cartRepo.getCartProductCount(user);
+    }
+
     // Get all products in a cart
     public List<CartProducts> getCartProducts(Cart cart) {
         return cartRepo.getCartProducts(cart);
@@ -78,7 +83,7 @@ public class CartService {
 
     public BigDecimal calculateTotal(List<CartProducts> cartProducts) {
 
-        BigDecimal total = BigDecimal.ZERO;  // ✅ IMPORTANT
+        BigDecimal total = BigDecimal.ZERO;
 
         if (cartProducts != null) {
             for (CartProducts cp : cartProducts) {

@@ -74,5 +74,8 @@
         </c:choose>
 
 </div>
+<a href="${pageContext.request.contextPath}/products" class="home-btn">
+    Home
+</a>
 </body>
 </html>

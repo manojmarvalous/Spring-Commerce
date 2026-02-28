@@ -56,7 +56,7 @@ public class OrdersController {
     public String viewMyOrders(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            return "redirect:/login"; // redirect if not logged in
+            return "redirect:/login";
         }
 
         List<Orders> ordersList = ordersService.getOrdersByUser(user);

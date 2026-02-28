@@ -20,5 +20,7 @@ public interface UserRepo {
 
     boolean existsByEmail(String email);
 
+    Optional<User> findUserWithDetails(String email);
+
 
 }

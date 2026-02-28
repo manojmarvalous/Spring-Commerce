@@ -11,15 +11,18 @@
 <body>
 
 <h2>My Orders</h2>
-
+ <a href="${pageContext.request.contextPath}/products" class="home-btn">
+        Home
+    </a>
 <c:choose>
     <c:when test="${empty ordersList}">
-        <p>You have no orders.</p>
+        <h2>You have no orders.</h2>
     </c:when>
     <c:otherwise>
+
         <c:forEach var="order" items="${ordersList}">
             <div class="order-card">
-                <h3>Order #${order.id} - ${order.status}</h3>
+                <h3>Order #${order.id} </h3>
                 <p><b>Name:</b> ${order.name}</p>
                 <p><b>Email:</b> ${order.email}</p>
                 <p><b>Phone:</b> ${order.phoneNumber}</p>

@@ -24,4 +24,6 @@ public interface CartRepo {
 
     List<CartProducts> getCartProducts(Cart cart);
     Optional<CartProducts> getCartProductsById(Long cartProductId);
+    int getCartProductCount(User user);
+
 }

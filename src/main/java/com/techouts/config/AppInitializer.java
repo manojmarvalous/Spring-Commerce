@@ -21,4 +21,17 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
         return new String[]{"/"};
     }
 
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        // configure multipart file upload location and limits
+        registration.setMultipartConfig(
+                new MultipartConfigElement(
+                        "C:/uploads",          // location for temporary storage, must exist
+                        5 * 1024 * 1024,       // max file size = 5MB
+                        10 * 1024 * 1024,      // max request size = 10MB
+                        0                      // file size threshold after which files are written to disk
+                )
+        );
+    }
+
 }
